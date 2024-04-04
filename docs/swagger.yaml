@@ -1,0 +1,150 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  handlers.recipeDTO:
+    properties:
+      ingredients:
+        items:
+          type: string
+        type: array
+      instructions:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+    type: object
+  model.Recipe:
+    properties:
+      id:
+        type: string
+      ingredients:
+        items:
+          type: string
+        type: array
+      instructions:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      publishedAt:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+    type: object
+host: localhost:8085
+info:
+  contact:
+    email: ric.martikan@gmail.com
+    name: Richard Martikan
+  description: This API provides operations for managing recipes.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Recipes API
+  version: 1.0.0
+paths:
+  /recipes:
+    get:
+      description: Get a list of all available recipes
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Recipe'
+        "500":
+          description: Internal Server Error
+      summary: List all recipes
+      tags:
+      - Recipes
+    post:
+      description: Save a new recipe
+      parameters:
+      - description: new recipe
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.recipeDTO'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Recipe'
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Save a new recipe
+      tags:
+      - Recipes
+  /recipes/{id}:
+    delete:
+      description: Delete recipe by id
+      parameters:
+      - description: ID of the recipe
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Delete recipe by id
+      tags:
+      - Recipes
+    get:
+      description: Get a single recipe by id
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Recipe'
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get recipe by id
+      tags:
+      - Recipes
+    put:
+      description: Update recipe by id
+      parameters:
+      - description: ID of the recipe
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: recipe for update
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.recipeDTO'
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Update recipe by id
+      tags:
+      - Recipes
+produces:
+- application/json
+schemes:
+- https
+swagger: "2.0"
